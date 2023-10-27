@@ -1,0 +1,290 @@
+/*
+SQLyog Community v13.1.1 (64 bit)
+MySQL - 10.4.22-MariaDB : Database - dburbanpets
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`dburbanpets` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+
+USE `dburbanpets`;
+
+/*Table structure for table `appointments` */
+
+DROP TABLE IF EXISTS `appointments`;
+
+CREATE TABLE `appointments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `appointmentID` varchar(100) NOT NULL,
+  `userID` varchar(100) NOT NULL,
+  `petID` varchar(100) NOT NULL,
+  `serviceID` varchar(100) NOT NULL,
+  `serviceamt` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `bookdate` date NOT NULL,
+  `booktime` time NOT NULL,
+  `totalamt` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `tlamountpaid` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `balance` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `appstatus` varchar(100) NOT NULL,
+  `paymentstat` varchar(100) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`,`appointmentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `appointments` */
+
+/*Table structure for table `message` */
+
+DROP TABLE IF EXISTS `message`;
+
+CREATE TABLE `message` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `email` varchar(300) NOT NULL,
+  `message` text NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `message` */
+
+/*Table structure for table `owner` */
+
+DROP TABLE IF EXISTS `owner`;
+
+CREATE TABLE `owner` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(100) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `middlename` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `owner` */
+
+insert  into `owner`(`id`,`userID`,`username`,`password`,`firstname`,`middlename`,`lastname`,`date_added`,`DATETIME_LOG`) values 
+(1,'OWNER-0000001','owner','owner','John','','Doe','2023-10-22','2023-10-22 16:15:33');
+
+/*Table structure for table `payments` */
+
+DROP TABLE IF EXISTS `payments`;
+
+CREATE TABLE `payments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `transactionID` varchar(150) NOT NULL,
+  `appointmentID` varchar(100) NOT NULL,
+  `userID` varchar(100) NOT NULL,
+  `amount` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `amountpaid` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`,`transactionID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `payments` */
+
+/*Table structure for table `pets` */
+
+DROP TABLE IF EXISTS `pets`;
+
+CREATE TABLE `pets` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `petID` varchar(100) NOT NULL,
+  `userID` varchar(100) NOT NULL,
+  `petname` varchar(150) NOT NULL,
+  `pettype` varchar(150) NOT NULL,
+  `breed` varchar(150) NOT NULL,
+  `gender` varchar(100) NOT NULL,
+  `weight` varchar(100) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `pets` */
+
+/*Table structure for table `prescriptions` */
+
+DROP TABLE IF EXISTS `prescriptions`;
+
+CREATE TABLE `prescriptions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `prescriptionID` varchar(100) NOT NULL,
+  `appointmentID` varchar(100) NOT NULL,
+  `vetID` varchar(100) NOT NULL,
+  `medication` varchar(200) NOT NULL,
+  `dosage` varchar(100) NOT NULL,
+  `quantity` varchar(100) NOT NULL,
+  `directions` text NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`,`prescriptionID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `prescriptions` */
+
+/*Table structure for table `receptionist` */
+
+DROP TABLE IF EXISTS `receptionist`;
+
+CREATE TABLE `receptionist` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(100) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `middlename` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `receptionist` */
+
+insert  into `receptionist`(`id`,`userID`,`username`,`password`,`firstname`,`middlename`,`lastname`,`date_added`,`DATETIME_LOG`) values 
+(1,'REC-0000001','receptionist','receptionist','Juan','','Delacruz','2023-10-22','2023-10-22 11:10:58');
+
+/*Table structure for table `services` */
+
+DROP TABLE IF EXISTS `services`;
+
+CREATE TABLE `services` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `serviceID` varchar(100) NOT NULL,
+  `servicename` varchar(500) NOT NULL,
+  `servicedesc` text NOT NULL,
+  `price` decimal(14,4) NOT NULL DEFAULT 0.0000,
+  `image` text NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`,`serviceID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `services` */
+
+insert  into `services`(`id`,`serviceID`,`servicename`,`servicedesc`,`price`,`image`,`date_added`,`DATETIME_LOG`) values 
+(1,'SRVC-0000001','Pet Check Up','Your pet\'s health passport to a vibrant life. A routine rendezvous with the vet, where well-being is celebrated and concerns are addressed. It\'s the secret to ensuring your furry friend\'s perpetual happiness and well-deserved pampering',2000.0000,'images/services/checkup.jpeg','2023-10-21','2023-10-21 08:12:44'),
+(2,'SRVC-0000002','Pet Grooming','Where fur transforms into fabulous! A spa day for your furry friend, where fluff, style, and irresistible charm are unveiled. It\'s the art of pampering, keeping your pet not just groomed but glamourous.',1500.0000,'images/services/grooming.jpg','2023-10-21','2023-10-21 08:29:32'),
+(3,'SRVC-0000003','Pet Dental Service','Where smiles sparkle! Your pet\'s VIP pass to top-notch oral care, where pearly whites shine and dental health takes the spotlight. It\'s the key to fresh breath and a dazzling grin for your four-legged pal.',3000.0000,'images/services/dentalcheck.jpg','2023-10-21','2023-10-21 08:29:36'),
+(4,'SRVC-0000004','Pet Vaccination','A shield of protection for your best friend. It\'s a quick and essential visit to the vet where health superheroes are born, ensuring a long and joyful life for your beloved pet.',5000.0000,'images/services/vaccination.png','2023-10-21','2023-10-21 08:29:38'),
+(5,'SRVC-0000005','Pet Operation','The road to recovery. When your pet needs a helping hand, it\'s a journey to better health, where skilled professionals mend and heal. It\'s all about giving your cherished companion a second chance at happiness.',8000.0000,'images/services/surgery.jpg','2023-10-21','2023-10-21 08:29:42'),
+(6,'SRVC-0000006','Pet Travel Pass','Opening the world to your furry explorer. It\'s the ticket to adventure, where passports become paw-ports and your pet\'s journey is boundless. Explore, roam, and make memories together.',10000.0000,'images/services/travelpass.jpg','2023-10-21','2023-10-21 08:29:46');
+
+/*Table structure for table `staff` */
+
+DROP TABLE IF EXISTS `staff`;
+
+CREATE TABLE `staff` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(100) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `middlename` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `staff` */
+
+insert  into `staff`(`id`,`userID`,`username`,`password`,`firstname`,`middlename`,`lastname`,`date_added`,`DATETIME_LOG`) values 
+(1,'STAFF-0000001','staff','staff','Joe','','Doe','2023-10-22','2023-10-22 16:57:55');
+
+/*Table structure for table `staffsched` */
+
+DROP TABLE IF EXISTS `staffsched`;
+
+CREATE TABLE `staffsched` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `staffID` varchar(100) NOT NULL,
+  `schedate` date NOT NULL,
+  `schedstarttime` time NOT NULL,
+  `schedendtime` time NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `staffsched` */
+
+/*Table structure for table `tbl_user` */
+
+DROP TABLE IF EXISTS `tbl_user`;
+
+CREATE TABLE `tbl_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(100) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `middlename` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `contactnum` varchar(20) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `address` text NOT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT 0,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `tbl_user` */
+
+/*Table structure for table `vet` */
+
+DROP TABLE IF EXISTS `vet`;
+
+CREATE TABLE `vet` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `userID` varchar(100) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `middlename` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `date_added` date NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `vet` */
+
+insert  into `vet`(`id`,`userID`,`username`,`password`,`firstname`,`middlename`,`lastname`,`date_added`,`DATETIME_LOG`) values 
+(1,'VET-0000001','veterinary','veterinary','Jane','','Doe','2023-10-22','2023-10-22 16:55:49');
+
+/*Table structure for table `vetsched` */
+
+DROP TABLE IF EXISTS `vetsched`;
+
+CREATE TABLE `vetsched` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `vetID` varchar(100) NOT NULL,
+  `schedate` date NOT NULL,
+  `schedstarttime` time NOT NULL,
+  `schedendtime` time NOT NULL,
+  `DATETIME_LOG` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `vetsched` */
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
