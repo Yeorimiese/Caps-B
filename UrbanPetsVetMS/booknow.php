@@ -177,11 +177,25 @@
 
 <script type="text/javascript">
     $(function() {
+        var dateNow = new Date();
+        // loop through dates
+        // available dates are plus one in the datepicker need to use momentjs to fix timezones
+        let dates = ['2023-11-01', '2023-11-02']; 
+        dates = dates.map(date => {
+            date = new Date(date);
+            date = date.setDate(date.getDate());
+            return new Date(date).toUTCString().slice(0, -13)
+        });
         $(".date-picker").datepicker({
             autoHide: true,
             format: 'mm/dd/yyyy',
             todayHighlight: true,
             startDate: '+0d',
+            beforeShowDay: function(date) {
+                var string = new Date(date).toUTCString().slice(0, -13)
+                // console.log(dates, string)
+                return dates.indexOf(string) !== -1;
+            }
         });
 
         fncdisplayservicedet();
