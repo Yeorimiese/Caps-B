@@ -176,14 +176,17 @@
 <!--product details end-->
 
 <script type="text/javascript">
+    let vetScheds;
+
     $(function() {
+        vetSchedule();
+        console.log(vetScheds);
         var dateNow = new Date();
         // loop through dates
-        // available dates are plus one in the datepicker need to use momentjs to fix timezones
-        let dates = ['2023-11-01', '2023-11-02']; 
+        let dates = vetScheds.map(sched => sched.date); 
         dates = dates.map(date => {
             date = new Date(date);
-            date = date.setDate(date.getDate());
+            date.setTime(date.getTime() - (24*60*60*1000) * 1);
             return new Date(date).toUTCString().slice(0, -13)
         });
         $(".date-picker").datepicker({
@@ -308,5 +311,17 @@
               'warning'
             )
         }
+    }
+
+    function vetSchedule(){
+        $.ajax ({
+            type: 'POST',
+            url: 'booknow_class.php',
+            data: 'form=vetSchedule' ,
+            async: false,
+            success: function(data) {
+                vetScheds = data;
+            }
+        })
     }
 </script>

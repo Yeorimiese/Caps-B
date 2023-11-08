@@ -20,7 +20,6 @@
                 $firsttime2 = $b . ":00:00";
                 $secondtime2 = $b . ":30:00";
 
-
                 $checkifmaynakabookdate = mysqli_num_rows(mysqli_query($connection, "SELECT appointmentID FROM appointments WHERE serviceID = '" . $_POST['textserviceID'] . "' AND appstatus = 'PENDING' AND bookdate = '" . date('Y-m-d', strtotime($_POST['textbookdate'])) . "' AND booktime = '" . $firsttime . "';"));
 
                 $checkifmaynakabookdate2 = mysqli_num_rows(mysqli_query($connection, "SELECT appointmentID FROM appointments WHERE serviceID = '" . $_POST['textserviceID'] . "' AND appstatus = 'PENDING' AND bookdate = '" . date('Y-m-d', strtotime($_POST['textbookdate'])) . "' AND booktime = '" . $secondtime . "';"));
@@ -85,5 +84,16 @@
 			
 			echo $genpayID;
 		break;
+
+        case 'vetSchedule':
+            $vetSchedArray = mysqli_query($connection, "SELECT schedate, schedstarttime, schedendtime FROM vetsched;");
+            $obj = [];
+            while($row = mysqli_fetch_array($vetSchedArray)) {
+                $tempArray = ['date' => $row[0], 'start' => $row[1], 'end' => $row[2]];
+                array_push($obj, $tempArray);
+            }
+            header('Content-Type: application/json');
+            echo json_encode($obj);
+            break;
 	}
 ?>
