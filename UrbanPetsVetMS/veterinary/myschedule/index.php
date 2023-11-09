@@ -124,6 +124,7 @@
 ?>
 
 <script>
+    let activeRemoveId;
     $(document).ready(function() {
         $(".date-picker").datepicker({
             autoHide: true,
@@ -162,10 +163,10 @@
                 right:'month,agendaWeek,agendaDay'
             },
             events: 'myschedule/eventsdata.php',
-            selectable:false,
+            selectable:true,
             selectHelper:false,
           
-            editable:false,
+            editable:true,
             eventResize:function(event)
             {
                 var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
@@ -174,6 +175,10 @@
                 var id = event.id;
 
             },
+            eventClick: function(event) {
+                $("#modalRemoveSched").modal('show');
+                activeRemoveId = event.id;
+            }
             // eventColor: '#0052ba',
             // eventTextColor: '#fff'
         });
@@ -229,5 +234,22 @@
     function clearproduct(){
         $(".clearinfo").css('border','');
         $(".clearinfo").val("");
+    }
+
+    function cancelDeleteSched(){
+        $("#modalRemoveSched").modal('hide');
+    }
+
+    function submitDeletion(){
+        $.ajax ({
+            type: 'POST',
+            url: 'myschedule/class.php',
+            data: { form: 'deleteSched', id: activeRemoveId },
+            async: false,
+            success: function(data) {
+                $('#calendar').fullCalendar('refetchEvents');
+                $("#modalRemoveSched").modal('hide');
+            }
+        })
     }
 </script>

@@ -41,3 +41,34 @@
         </div>
     </div>
 </div>
+
+<div id="modalRemoveSched" class="modal" data-keyboard="false" data-backdrop="static" style="padding-right: 0px !important;">
+    <div class="modal-dialog modal-md"style="max-width: 400px;">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <h3>Are you sure you want to remove it?</h3>
+                    </div>
+
+                    <div class="col-md-12">
+                        <button 
+                            class="btn waves-effect waves-light btn-secondary btnuseraccSAVE" 
+                            style="background-color: #599dea !important; border-color: #599dea; padding: 7px 17px;font-weight: 500;" 
+                            onclick="submitDeletion();"
+                        >Yes</button>
+                        <button 
+                            class="btn btn-default" 
+                            style="border-color: #599dea; padding: 7px 17px;font-weight: 500;" 
+                            onclick="cancelDeleteSched();"
+                        >No</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

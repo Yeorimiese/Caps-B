@@ -180,7 +180,6 @@
 
     $(function() {
         vetSchedule();
-        console.log(vetScheds);
         var dateNow = new Date();
         // loop through dates
         let dates = vetScheds.map(sched => sched.date); 
